@@ -16,35 +16,55 @@ st.markdown("""
     body { background-color: #000000 !important; color: #ffffff !important; }
     [data-testid="stAppViewContainer"] { background-color: #000000 !important; }
     [data-testid="stSidebar"] { background-color: #1a1a1a !important; }
-    .stButton > button { background: linear-gradient(135deg, #0ea5e9, #0284c7) !important; color: white !important; border: none !important; border-radius: 12px !important; }
+    .stButton > button { background: linear-gradient(135deg, #0ea5e9, #0284c7) !important; color: white !important; border: none !important; border-radius: 12px !important; width: 100% !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# Header with Let's Start button
-st.markdown("---")
-col1, col2, col3 = st.columns([1, 8, 1])
-with col1:
-    if st.button("📋 Let's Start", use_container_width=True, key="lets_start"):
-        st.session_state.show_nav = not st.session_state.get('show_nav', False)
+# Initialize session state
+if 'show_menu' not in st.session_state:
+    st.session_state.show_menu = False
+
+# Let's Start button at top
+if st.button("📋 Let's Start", key="toggle_menu", use_container_width=True):
+    st.session_state.show_menu = not st.session_state.show_menu
 
 st.markdown("---")
 
-# Show navigation based on button state
-if st.session_state.get('show_nav', False):
-    with st.sidebar:
-        st.markdown("### 🧭 Navigation")
-        st.markdown("---")
-        page = st.radio("Select Tool:", ["🎯 Ad Copy Simulator", "🔍 SEO Analyzer", "⚠️ Mismatch Detector", "📊 GA4 Analyzer"], key="nav_radio")
-        st.markdown("---")
-        st.markdown('<div style="color:#94a3b8; font-size:0.75rem;">Powered by Groq LLaMA 3.3</div>', unsafe_allow_html=True)
-else:
-    # Default page when sidebar is collapsed
-    page = st.session_state.get('current_page', "🎯 Ad Copy Simulator")
-    with st.sidebar:
-        page = st.radio("Select Tool:", ["🎯 Ad Copy Simulator", "🔍 SEO Analyzer", "⚠️ Mismatch Detector", "📊 GA4 Analyzer"], key="nav_radio")
-        st.session_state.current_page = page
-        st.markdown("---")
-        st.markdown('<div style="color:#94a3b8; font-size:0.75rem;">Powered by Groq LLaMA 3.3</div>', unsafe_allow_html=True)
+# Show menu options when button is clicked
+if st.session_state.show_menu:
+    st.markdown("### 🧭 Navigation Menu")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("🎯 Ad Copy Simulator", use_container_width=True, key="btn_ads"):
+            st.session_state.page = "🎯 Ad Copy Simulator"
+            st.session_state.show_menu = False
+            st.rerun()
+    with col2:
+        if st.button("🔍 SEO Analyzer", use_container_width=True, key="btn_seo"):
+            st.session_state.page = "🔍 SEO Analyzer"
+            st.session_state.show_menu = False
+            st.rerun()
+    
+    col3, col4 = st.columns(2)
+    with col3:
+        if st.button("⚠️ Mismatch Detector", use_container_width=True, key="btn_match"):
+            st.session_state.page = "⚠️ Mismatch Detector"
+            st.session_state.show_menu = False
+            st.rerun()
+    with col4:
+        if st.button("📊 GA4 Analyzer", use_container_width=True, key="btn_ga4"):
+            st.session_state.page = "📊 GA4 Analyzer"
+            st.session_state.show_menu = False
+            st.rerun()
+    
+    st.markdown("---")
+
+# Get current page
+if 'page' not in st.session_state:
+    st.session_state.page = "🎯 Ad Copy Simulator"
+
+page = st.session_state.page
 
 # PAGE 1 — AD COPY SIMULATOR
 if page == "🎯 Ad Copy Simulator":
