@@ -10,35 +10,23 @@ st.set_page_config(
     initial_sidebar_state="auto"
 )
 
-# Dark theme CSS + Hide hamburger, add custom button
+# Dark theme CSS
 st.markdown("""
 <style>
     body { background-color: #000000 !important; color: #ffffff !important; }
     [data-testid="stAppViewContainer"] { background-color: #000000 !important; }
     [data-testid="stSidebar"] { background-color: #1a1a1a !important; }
-    .stButton > button { background: linear-gradient(135deg, #0ea5e9, #0284c7) !important; color: white !important; border: none !important; border-radius: 12px !important; }
+    .stButton > button { background: linear-gradient(135deg, #0ea5e9, #0284c7) !important; color: white !important; border: none !important; border-radius: 12px !important; padding: 10px 12px !important; }
     
     /* Hide original hamburger icon */
     button[kind="header"] { display: none !important; }
-    
-    /* Add custom Let's Start button in header */
-    [data-testid="stHeader"]::before {
-        content: "📋 Let's Start";
-        position: absolute;
-        left: 10px;
-        top: 10px;
-        background: linear-gradient(135deg, #0ea5e9, #0284c7);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 8px 16px;
-        font-weight: 700;
-        cursor: pointer;
-        font-size: 14px;
-        z-index: 999;
-    }
 </style>
 """, unsafe_allow_html=True)
+
+# Create fully clickable Let's Start button
+col_hamburger, col_spacer = st.columns([0.08, 0.92])
+with col_hamburger:
+    st.button("📋\nLet's\nStart", use_container_width=True, key="lets_start_menu")
 
 # Sidebar Navigation
 with st.sidebar:
