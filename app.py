@@ -1,46 +1,22 @@
 import streamlit as st
 import pandas as pd
-import os
-
-# Set API keys from Streamlit secrets
-if "GROQ_API_KEY" in st.secrets:
-    os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
-if "PAGESPEED_API_KEY" in st.secrets:
-    os.environ["PAGESPEED_API_KEY"] = st.secrets["PAGESPEED_API_KEY"]
-
 from generator import generate_ads, analyze_url, get_pagespeed_data, analyze_mismatch, get_ga4_data
 from scorer import score_ad
 
 st.set_page_config(
     page_title="Google Marketing Toolkit",
     page_icon="🎯",
-    layout="wide",
-    initial_sidebar_state="auto"
+    layout="wide"
 )
 
-# Dark theme CSS
-st.markdown("""
-<style>
-    body { background-color: #000000 !important; color: #ffffff !important; }
-    [data-testid="stAppViewContainer"] { background-color: #000000 !important; }
-    [data-testid="stSidebar"] { background-color: #1a1a1a !important; }
-    .stButton > button { background: linear-gradient(135deg, #0ea5e9, #0284c7) !important; color: white !important; border: none !important; border-radius: 12px !important; padding: 10px 12px !important; }
-    
-    /* Hide original hamburger icon */
-    button[kind="header"] { display: none !important; }
-</style>
-""", unsafe_allow_html=True)
-
-# Create fully clickable Let's Start button
-col_hamburger, col_spacer = st.columns([0.08, 0.92])
-with col_hamburger:
-    st.button("📋\nLet's\nStart", use_container_width=True, key="lets_start_menu")
+st.title("🎯 Google Marketing Toolkit")
+st.markdown("AI-powered tools for Google Ads, SEO, and Analytics")
 
 # Sidebar Navigation
 with st.sidebar:
     st.markdown("### 🧭 Navigation")
     st.markdown("---")
-    page = st.radio("", ["🎯 Ad Copy Simulator", "🔍 SEO Analyzer", "⚠️ Mismatch Detector", "📊 GA4 Analyzer"])
+    page = st.radio("Select Tool:", ["🎯 Ad Copy Simulator", "🔍 SEO Analyzer", "⚠️ Mismatch Detector", "📊 GA4 Analyzer"])
     st.markdown("---")
     st.markdown('<div style="color:#94a3b8; font-size:0.75rem;">Powered by Groq LLaMA 3.3</div>', unsafe_allow_html=True)
 
@@ -87,12 +63,12 @@ if page == "🎯 Ad Copy Simulator":
                 is_winner = score == best_score
                 with col:
                     st.markdown(f"""
-                    <div style="background:#1a1a1a; border:2px solid {'#0ea5e9' if is_winner else '#333333'}; border-radius:12px; padding:1rem; margin-bottom:1rem;">
-                        <div style="color:#a0aec0; font-size:0.7rem; font-weight:700; margin-bottom:4px;">{'🏆 WINNER · ' if is_winner else ''}VARIATION {i+1}</div>
-                        <div style="font-size:1rem; font-weight:800; color:#e0f2fe; margin:0.5rem 0;">{headline}</div>
-                        <div style="color:#cbd5e1; font-size:0.85rem; margin-bottom:0.5rem;">{description}</div>
-                        <div style="color:#38bdf8; font-weight:700; font-size:0.9rem;">⚡ {score}/100</div>
-                        <div style="color:#94a3b8; font-size:0.75rem; font-style:italic; margin-top:0.5rem;">💡 {why}</div>
+                    <div style="background:#f0f2f6; border:2px solid {'#0ea5e9' if is_winner else '#ccc'}; border-radius:12px; padding:1rem; margin-bottom:1rem;">
+                        <div style="color:#666; font-size:0.7rem; font-weight:700; margin-bottom:4px;">{'🏆 WINNER · ' if is_winner else ''}VARIATION {i+1}</div>
+                        <div style="font-size:1rem; font-weight:800; color:#000; margin:0.5rem 0;">{headline}</div>
+                        <div style="color:#555; font-size:0.85rem; margin-bottom:0.5rem;">{description}</div>
+                        <div style="color:#0ea5e9; font-weight:700; font-size:0.9rem;">⚡ {score}/100</div>
+                        <div style="color:#666; font-size:0.75rem; font-style:italic; margin-top:0.5rem;">💡 {why}</div>
                     </div>
                     """, unsafe_allow_html=True)
 
