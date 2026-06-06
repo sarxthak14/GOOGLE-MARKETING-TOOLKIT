@@ -7,64 +7,46 @@ st.set_page_config(
     page_title="Google Marketing Toolkit",
     page_icon="🎯",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="auto"
 )
 
-# Dark theme CSS
+# Dark theme CSS + Hide hamburger, add custom button
 st.markdown("""
 <style>
     body { background-color: #000000 !important; color: #ffffff !important; }
     [data-testid="stAppViewContainer"] { background-color: #000000 !important; }
     [data-testid="stSidebar"] { background-color: #1a1a1a !important; }
-    .stButton > button { background: linear-gradient(135deg, #0ea5e9, #0284c7) !important; color: white !important; border: none !important; border-radius: 12px !important; width: 100% !important; }
+    .stButton > button { background: linear-gradient(135deg, #0ea5e9, #0284c7) !important; color: white !important; border: none !important; border-radius: 12px !important; }
+    
+    /* Hide original hamburger icon */
+    button[kind="header"] { display: none !important; }
+    
+    /* Add custom Let's Start button in header */
+    [data-testid="stHeader"]::before {
+        content: "📋 Let's Start";
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        background: linear-gradient(135deg, #0ea5e9, #0284c7);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 14px;
+        z-index: 999;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# Initialize session state
-if 'show_menu' not in st.session_state:
-    st.session_state.show_menu = False
-
-# Let's Start button at top
-if st.button("📋 Let's Start", key="toggle_menu", use_container_width=True):
-    st.session_state.show_menu = not st.session_state.show_menu
-
-st.markdown("---")
-
-# Show menu options when button is clicked
-if st.session_state.show_menu:
-    st.markdown("### 🧭 Navigation Menu")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("🎯 Ad Copy Simulator", use_container_width=True, key="btn_ads"):
-            st.session_state.page = "🎯 Ad Copy Simulator"
-            st.session_state.show_menu = False
-            st.rerun()
-    with col2:
-        if st.button("🔍 SEO Analyzer", use_container_width=True, key="btn_seo"):
-            st.session_state.page = "🔍 SEO Analyzer"
-            st.session_state.show_menu = False
-            st.rerun()
-    
-    col3, col4 = st.columns(2)
-    with col3:
-        if st.button("⚠️ Mismatch Detector", use_container_width=True, key="btn_match"):
-            st.session_state.page = "⚠️ Mismatch Detector"
-            st.session_state.show_menu = False
-            st.rerun()
-    with col4:
-        if st.button("📊 GA4 Analyzer", use_container_width=True, key="btn_ga4"):
-            st.session_state.page = "📊 GA4 Analyzer"
-            st.session_state.show_menu = False
-            st.rerun()
-    
+# Sidebar Navigation
+with st.sidebar:
+    st.markdown("### 🧭 Navigation")
     st.markdown("---")
-
-# Get current page
-if 'page' not in st.session_state:
-    st.session_state.page = "🎯 Ad Copy Simulator"
-
-page = st.session_state.page
+    page = st.radio("", ["🎯 Ad Copy Simulator", "🔍 SEO Analyzer", "⚠️ Mismatch Detector", "📊 GA4 Analyzer"])
+    st.markdown("---")
+    st.markdown('<div style="color:#94a3b8; font-size:0.75rem;">Powered by Groq LLaMA 3.3</div>', unsafe_allow_html=True)
 
 # PAGE 1 — AD COPY SIMULATOR
 if page == "🎯 Ad Copy Simulator":
