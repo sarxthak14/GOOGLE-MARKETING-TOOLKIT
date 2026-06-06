@@ -49,7 +49,7 @@ def generate_ads(product, audience, benefit, tone):
         messages=[{"role": "user", "content": prompt}]
     )
     
-    return message.content[0].text
+    return message.choices[0].message.content
 
 def analyze_url(url, content):
     prompt = f"""
@@ -72,7 +72,7 @@ def analyze_url(url, content):
         messages=[{"role": "user", "content": prompt}]
     )
     
-    return message.content[0].text
+    return message.choices[0].message.content
 
 def get_pagespeed_data(url):
     try:
@@ -120,7 +120,7 @@ def analyze_mismatch(ad_headline, ad_description, landing_url):
         messages=[{"role": "user", "content": prompt}]
     )
     
-    return message.content[0].text
+    return message.choices[0].message.content
 
 def get_ga4_data(property_id, credentials_file):
     try:
