@@ -7,7 +7,7 @@ st.set_page_config(
     page_title="Google Marketing Toolkit",
     page_icon="🎯",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="auto"
 )
 
 st.markdown("""
@@ -19,37 +19,49 @@ st.markdown("""
         color: #ffffff !important;
     }
     
-    /* Fixed sidebar */
+    /* Sidebar styling */
     [data-testid="stSidebar"] {
         background-color: #1a1a1a !important;
         border-right: 1px solid #333333 !important;
-        position: fixed !important;
-        left: 0 !important;
-        top: 0 !important;
-        height: 100vh !important;
-        width: 250px !important;
-        z-index: 99 !important;
-        overflow-y: auto !important;
     }
     
-    /* Adjust main content for fixed sidebar */
-    [data-testid="stMainBlockContainer"] {
-        margin-left: 250px !important;
-        padding: 2rem !important;
+    /* Desktop: Fixed sidebar */
+    @media (min-width: 769px) {
+        [data-testid="stSidebar"] {
+            position: fixed !important;
+            left: 0 !important;
+            top: 0 !important;
+            height: 100vh !important;
+            width: 250px !important;
+            z-index: 99 !important;
+            overflow-y: auto !important;
+        }
+        
+        [data-testid="stMainBlockContainer"] {
+            margin-left: 250px !important;
+            padding: 2rem !important;
+        }
     }
     
-    /* Hide hamburger menu completely */
-    button[kind="header"] {
-        display: none !important;
-    }
-    
-    [data-testid="collapsedControl"] {
-        display: none !important;
+    /* Mobile: Hamburger menu visible */
+    @media (max-width: 768px) {
+        [data-testid="stSidebar"] {
+            width: 100% !important;
+        }
+        
+        button[kind="header"] {
+            display: block !important;
+        }
+        
+        [data-testid="stMainBlockContainer"] {
+            margin-left: 0 !important;
+            padding: 1rem !important;
+        }
     }
     
     /* Styling */
     .hero-title {
-        font-size: 3.5rem;
+        font-size: 2.5rem;
         font-weight: 900;
         background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #38bdf8 100%);
         -webkit-background-clip: text;
@@ -58,11 +70,24 @@ st.markdown("""
         margin-bottom: 0.5rem;
     }
     
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 1.8rem;
+        }
+    }
+    
     .hero-sub {
         text-align: center;
         color: #a0aec0;
-        font-size: 1.1rem;
+        font-size: 1rem;
         margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-sub {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
     }
     
     .card {
@@ -74,6 +99,14 @@ st.markdown("""
         box-shadow: 0 4px 20px rgba(14,165,233,0.1);
     }
     
+    @media (max-width: 768px) {
+        .card {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
+        }
+    }
+    
     .winner-banner {
         background: linear-gradient(135deg, #0a3e54, #1a5f7a) !important;
         border: 1px solid #0284c7 !important;
@@ -81,6 +114,14 @@ st.markdown("""
         padding: 1.2rem 1.5rem;
         text-align: center;
         margin: 1.5rem 0;
+    }
+    
+    @media (max-width: 768px) {
+        .winner-banner {
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
     }
     
     .trigger-badge {
@@ -100,6 +141,10 @@ st.markdown("""
     .badge-value { background: #15803d; color: #86efac; }
     
     .headline { font-size: 1.3rem; font-weight: 800; color: #e0f2fe; margin: 0.5rem 0; }
+    @media (max-width: 768px) {
+        .headline { font-size: 1.1rem; }
+    }
+    
     .description { color: #cbd5e1; font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.8rem; }
     .why-text { color: #94a3b8; font-size: 0.8rem; font-style: italic; border-left: 2px solid #0284c7; padding-left: 0.8rem; }
     
@@ -109,6 +154,9 @@ st.markdown("""
     .score-low { background: #7f1d1d; color: #fca5a5; }
     
     .section-title { font-size: 1.5rem; font-weight: 800; color: #e0f2fe; margin: 2rem 0 1rem 0; }
+    @media (max-width: 768px) {
+        .section-title { font-size: 1.2rem; margin: 1.5rem 0 0.8rem 0; }
+    }
     
     .stButton > button {
         background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
