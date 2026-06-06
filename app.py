@@ -3,11 +3,18 @@ import pandas as pd
 from generator import generate_ads, analyze_url, get_pagespeed_data, analyze_mismatch, get_ga4_data
 from scorer import score_ad
 
+# Detect if mobile
+def is_mobile():
+    try:
+        return st.session_state.get('is_mobile', False)
+    except:
+        return False
+
 st.set_page_config(
     page_title="Google Marketing Toolkit",
     page_icon="🎯",
-    layout="wide",
-    initial_sidebar_state="auto"
+    layout="centered" if is_mobile() else "wide",
+    initial_sidebar_state="collapsed"
 )
 
 st.markdown("""
@@ -40,22 +47,27 @@ st.markdown("""
         [data-testid="stMainBlockContainer"] {
             margin-left: 250px !important;
             padding: 2rem !important;
+            max-width: 100% !important;
         }
     }
     
-    /* Mobile: Hamburger menu visible */
+    /* Mobile: Centered, no fixed sidebar */
     @media (max-width: 768px) {
         [data-testid="stSidebar"] {
             width: 100% !important;
-        }
-        
-        button[kind="header"] {
-            display: block !important;
+            position: relative !important;
         }
         
         [data-testid="stMainBlockContainer"] {
             margin-left: 0 !important;
             padding: 1rem !important;
+            max-width: 100% !important;
+        }
+        
+        .block-container {
+            max-width: 100% !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
         }
     }
     
@@ -72,7 +84,7 @@ st.markdown("""
     
     @media (max-width: 768px) {
         .hero-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
         }
     }
     
@@ -85,7 +97,7 @@ st.markdown("""
     
     @media (max-width: 768px) {
         .hero-sub {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 1rem;
         }
     }
@@ -140,9 +152,9 @@ st.markdown("""
     .badge-fomo { background: #78350f; color: #fcd34d; }
     .badge-value { background: #15803d; color: #86efac; }
     
-    .headline { font-size: 1.3rem; font-weight: 800; color: #e0f2fe; margin: 0.5rem 0; }
+    .headline { font-size: 1.3rem; font-weight: 800; color: #e0f2fe; margin: 0.5rem 0; line-height: 1.3; }
     @media (max-width: 768px) {
-        .headline { font-size: 1.1rem; }
+        .headline { font-size: 1rem; }
     }
     
     .description { color: #cbd5e1; font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.8rem; }
@@ -155,7 +167,7 @@ st.markdown("""
     
     .section-title { font-size: 1.5rem; font-weight: 800; color: #e0f2fe; margin: 2rem 0 1rem 0; }
     @media (max-width: 768px) {
-        .section-title { font-size: 1.2rem; margin: 1.5rem 0 0.8rem 0; }
+        .section-title { font-size: 1.1rem; margin: 1.5rem 0 0.8rem 0; }
     }
     
     .stButton > button {
