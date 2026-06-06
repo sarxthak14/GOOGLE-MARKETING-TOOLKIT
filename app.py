@@ -6,38 +6,45 @@ from scorer import score_ad
 st.set_page_config(
     page_title="Google Marketing Toolkit",
     page_icon="🎯",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
-# Dark theme CSS - MINIMAL
+# Dark theme CSS
 st.markdown("""
 <style>
     body { background-color: #000000 !important; color: #ffffff !important; }
     [data-testid="stAppViewContainer"] { background-color: #000000 !important; }
     [data-testid="stSidebar"] { background-color: #1a1a1a !important; }
-    .stButton > button { background: linear-gradient(135deg, #0ea5e9, #0284c7) !important; color: white !important; border: none !important; border-radius: 12px !important; width: 100% !important; }
-    
-    /* Hide hamburger menu icon, show custom button */
-    button[kind="header"] { display: none !important; }
-    [data-testid="collapsedControl"] { display: none !important; }
+    .stButton > button { background: linear-gradient(135deg, #0ea5e9, #0284c7) !important; color: white !important; border: none !important; border-radius: 12px !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# Custom "Let's Start" Button for Mobile Menu
-col1, col2, col3 = st.columns([0.3, 0.4, 0.3])
-with col2:
-    if st.button("📋 Let's Start", use_container_width=True):
-        st.session_state.show_menu = not st.session_state.get('show_menu', False)
+# Header with Let's Start button
+st.markdown("---")
+col1, col2, col3 = st.columns([1, 8, 1])
+with col1:
+    if st.button("📋 Let's Start", use_container_width=True, key="lets_start"):
+        st.session_state.show_nav = not st.session_state.get('show_nav', False)
 
 st.markdown("---")
 
-# Sidebar Navigation
-with st.sidebar:
-    st.markdown("### 🧭 Navigation")
-    st.markdown("---")
-    page = st.radio("", ["🎯 Ad Copy Simulator", "🔍 SEO Analyzer", "⚠️ Mismatch Detector", "📊 GA4 Analyzer"])
-    st.markdown("---")
-    st.markdown('<div style="color:#94a3b8; font-size:0.75rem;">Powered by Groq LLaMA 3.3</div>', unsafe_allow_html=True)
+# Show navigation based on button state
+if st.session_state.get('show_nav', False):
+    with st.sidebar:
+        st.markdown("### 🧭 Navigation")
+        st.markdown("---")
+        page = st.radio("Select Tool:", ["🎯 Ad Copy Simulator", "🔍 SEO Analyzer", "⚠️ Mismatch Detector", "📊 GA4 Analyzer"], key="nav_radio")
+        st.markdown("---")
+        st.markdown('<div style="color:#94a3b8; font-size:0.75rem;">Powered by Groq LLaMA 3.3</div>', unsafe_allow_html=True)
+else:
+    # Default page when sidebar is collapsed
+    page = st.session_state.get('current_page', "🎯 Ad Copy Simulator")
+    with st.sidebar:
+        page = st.radio("Select Tool:", ["🎯 Ad Copy Simulator", "🔍 SEO Analyzer", "⚠️ Mismatch Detector", "📊 GA4 Analyzer"], key="nav_radio")
+        st.session_state.current_page = page
+        st.markdown("---")
+        st.markdown('<div style="color:#94a3b8; font-size:0.75rem;">Powered by Groq LLaMA 3.3</div>', unsafe_allow_html=True)
 
 # PAGE 1 — AD COPY SIMULATOR
 if page == "🎯 Ad Copy Simulator":
