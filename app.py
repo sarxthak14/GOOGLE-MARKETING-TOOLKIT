@@ -1,5 +1,13 @@
 import streamlit as st
 import pandas as pd
+import os
+
+# Set API keys from Streamlit secrets
+if "GROQ_API_KEY" in st.secrets:
+    os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
+if "PAGESPEED_API_KEY" in st.secrets:
+    os.environ["PAGESPEED_API_KEY"] = st.secrets["PAGESPEED_API_KEY"]
+
 from generator import generate_ads, analyze_url, get_pagespeed_data, analyze_mismatch, get_ga4_data
 from scorer import score_ad
 
