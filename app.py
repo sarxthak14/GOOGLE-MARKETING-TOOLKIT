@@ -16,8 +16,20 @@ st.markdown("""
     [data-testid="stAppViewContainer"] { background-color: #000000 !important; }
     [data-testid="stSidebar"] { background-color: #1a1a1a !important; }
     .stButton > button { background: linear-gradient(135deg, #0ea5e9, #0284c7) !important; color: white !important; border: none !important; border-radius: 12px !important; width: 100% !important; }
+    
+    /* Hide hamburger menu icon, show custom button */
+    button[kind="header"] { display: none !important; }
+    [data-testid="collapsedControl"] { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
+
+# Custom "Let's Start" Button for Mobile Menu
+col1, col2, col3 = st.columns([0.3, 0.4, 0.3])
+with col2:
+    if st.button("📋 Let's Start", use_container_width=True):
+        st.session_state.show_menu = not st.session_state.get('show_menu', False)
+
+st.markdown("---")
 
 # Sidebar Navigation
 with st.sidebar:
